@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+
+html, body { 
+  height: 100%; 
+}
+
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+.dashboard-container {
+  padding: 20px;
+}
+
+.mat-mdc-card {
+  margin-bottom: 20px;
+} 

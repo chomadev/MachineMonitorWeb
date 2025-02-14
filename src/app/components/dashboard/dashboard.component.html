@@ -1,0 +1,19 @@
+<div class="dashboard-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>System Status</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="dashboard-grid">
+        <app-system-status-item
+          *ngFor="let status of machineStatuses"
+          [machine]="status.machine"
+          [systemCheck]="status.systemCheck"
+          [allChecksOk]="status.allChecksOk"
+          (click)="openDetails(status.systemCheck!)">
+        </app-system-status-item>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div> 

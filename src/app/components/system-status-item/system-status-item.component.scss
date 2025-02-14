@@ -1,0 +1,53 @@
+.system-item {
+  $root: &;
+
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  max-width: 400px;
+  margin: 0 auto;
+
+  &:hover {
+    background-color: #eeeeee;
+  }
+
+  &__icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-right: 24px;
+
+    &--ok {
+      color: #4caf50;
+    }
+
+    &--error {
+      color: #f44336;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__timestamp {
+    margin: 0 0 8px 0;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  }
+
+  &__status-chip {
+    font-size: 14px;
+    font-weight: 500;
+  }
+} 

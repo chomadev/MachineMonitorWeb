@@ -1,0 +1,23 @@
+<div class="system-item" *ngIf="systemCheck">
+  <mat-icon 
+    class="system-item__icon" 
+    [class.system-item__icon--ok]="allChecksOk" 
+    [class.system-item__icon--error]="!allChecksOk">
+    computer
+  </mat-icon>
+  
+  <div class="system-item__content">
+    <h3 class="system-item__title">{{machine.name}}</h3>
+    <p class="system-item__timestamp">
+      Last check: {{systemCheck.timestamp | date:'MM/dd/yyyy HH:mm'}}
+    </p>
+    <mat-chip-listbox>
+      <mat-chip 
+        class="system-item__status-chip"
+        [color]="allChecksOk ? 'primary' : 'warn'" 
+        selected>
+        {{allChecksOk ? 'All checks OK' : 'Issues detected'}}
+      </mat-chip>
+    </mat-chip-listbox>
+  </div>
+</div> 
