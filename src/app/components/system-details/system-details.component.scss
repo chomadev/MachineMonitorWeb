@@ -38,10 +38,52 @@
       &--mt-3 {
         margin-top: 12px;
       }
+
+      &--muted {
+        color: rgba(0, 0, 0, 0.38);
+        font-size: 12px;
+      }
+
+      &--status {
+        font-weight: 500;
+        margin-left: 4px;
+      }
+
+      &--success {
+        color: #4caf50;
+      }
+
+      &--error {
+        color: #f44336;
+      }
+
+      &--warning {
+        color: #ff9800;
+        font-weight: 500;
+      }
     }
 
     &-progress {
       margin-top: 4px;
+    }
+
+    &-list {
+      margin: 4px 0 0 16px;
+      padding: 0;
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 14px;
+
+      li {
+        margin-bottom: 4px;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    &-group {
+      margin-top: 12px;
     }
   }
 }

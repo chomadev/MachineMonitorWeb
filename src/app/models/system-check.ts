@@ -1,7 +1,48 @@
+export interface NetworkInterface {
+  name: string;
+  description?: string;
+  status?: string;
+}
+
+export interface MonitoredAddress {
+  id: number;
+  address: string;
+  isReachable: boolean;
+  responseTime: number;
+  networkStatusId: number;
+}
+
+export interface Folder {
+  id: number;
+  path: string;
+  exists: boolean;
+  isEmpty: boolean;
+  lastModified: string | null;
+  hasZeroByteFiles: boolean;
+  isValid: boolean;
+  errorMessage: string | null;
+  zeroByteFiles: string;
+  systemCheckHistoryId: number;
+}
+
+export interface FolderChange {
+  id: number;
+  path: string;
+  lastChanged: string;
+  lastChangeType: string;
+  systemCheckHistoryId: number;
+}
+
 export interface SystemCheck {
   id: number;
   timestamp: string;
   machineId: number;
+  machine: {
+    id: number;
+    name: string;
+    description: string | null;
+    createdAt: string;
+  } | null;
   services: {
     id: number;
     name: string;
@@ -15,7 +56,9 @@ export interface SystemCheck {
     isConnected: boolean;
     hasInternetAccess: boolean;
     ipAddress: string | null;
+    activeInterfaces: string;
     systemCheckHistoryId: number;
+    monitoredAddresses: MonitoredAddress[];
   };
   disks: {
     id: number;
@@ -44,4 +87,7 @@ export interface SystemCheck {
     service: string;
     systemCheckHistoryId: number;
   }[];
+  folders: Folder[];
+  folderChanges: FolderChange[];
+  monitoredAddresses: any[];
 } 

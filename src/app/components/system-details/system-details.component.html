@@ -1,7 +1,16 @@
-<h2 mat-dialog-title>System Details</h2>
+<h2 mat-dialog-title>System Details - {{getMachineName()}}</h2>
 <mat-dialog-content>
   <div class="system-details">
     <div class="system-details__section">
+      <h3 class="system-details__section-title">Machine Info</h3>
+      <div class="system-details__item">
+        <mat-icon class="system-details__item-icon">info</mat-icon>
+        <div class="system-details__item-content">
+          <p class="system-details__item-text">Machine ID: {{data.machineId}}</p>
+          <p class="system-details__item-text">Last Check: {{data.timestamp | date:'MM/dd/yyyy HH:mm:ss'}}</p>
+        </div>
+      </div>
+
       <h3 class="system-details__section-title">Services</h3>
       <div *ngFor="let service of data.services" class="system-details__item">
         <mat-icon class="system-details__item-icon" [color]="service.isRunning ? 'primary' : 'warn'">
@@ -23,6 +32,38 @@
           <p class="system-details__item-text">Connected: {{data.network.isConnected ? 'Yes' : 'No'}}</p>
           <p class="system-details__item-text">Internet Access: {{data.network.hasInternetAccess ? 'Yes' : 'No'}}</p>
           <p *ngIf="data.network.ipAddress" class="system-details__item-text">IP Address: {{data.network.ipAddress}}</p>
+          
+          <div *ngIf="parsedInterfaces?.length" class="system-details__item-group">
+            <p class="system-details__item-text">Active Interfaces:</p>
+            <ul class="system-details__item-list">
+              <li *ngFor="let interface of parsedInterfaces">
+                {{interface.name}}
+                <span *ngIf="interface.description" class="system-details__item-text--muted">
+                  - {{interface.description}}
+                </span>
+                <span *ngIf="interface.status" class="system-details__item-text--status">
+                  ({{interface.status}})
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="data.network.monitoredAddresses?.length" class="system-details__item-group">
+            <p class="system-details__item-text">Monitored Addresses:</p>
+            <ul class="system-details__item-list">
+              <li *ngFor="let address of data.network.monitoredAddresses">
+                {{address.address}}
+                <span class="system-details__item-text--status" 
+                      [class.system-details__item-text--success]="address.isReachable"
+                      [class.system-details__item-text--error]="!address.isReachable">
+                  ({{address.isReachable ? 'Reachable' : 'Unreachable'}})
+                </span>
+                <span class="system-details__item-text--muted">
+                  Response time: {{address.responseTime}}ms
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -78,6 +119,54 @@
           <p *ngIf="port.service" class="system-details__item-text">Service: {{port.service}}</p>
         </div>
       </div>
+
+      <ng-container *ngIf="data.folders.length">
+        <h3 class="system-details__section-title">Monitored Folders</h3>
+        <div *ngFor="let folder of data.folders" class="system-details__item">
+          <mat-icon class="system-details__item-icon" 
+                    [color]="folder.isValid && folder.exists ? 'primary' : 'warn'">
+            {{folder.exists ? 'folder' : 'folder_off'}}
+          </mat-icon>
+          <div class="system-details__item-content">
+            <h4 class="system-details__item-title">{{folder.path}}</h4>
+            <p class="system-details__item-text">
+              Status: 
+              <span class="system-details__item-text--status"
+                    [class.system-details__item-text--success]="folder.isValid && folder.exists"
+                    [class.system-details__item-text--error]="!folder.isValid || !folder.exists">
+                {{folder.exists ? 'Exists' : 'Not Found'}}
+                {{!folder.isValid ? ' (Invalid)' : ''}}
+              </span>
+            </p>
+            <p class="system-details__item-text">Content: {{folder.isEmpty ? 'Empty' : 'Has files'}}</p>
+            <p *ngIf="folder.lastModified" class="system-details__item-text">
+              Last Modified: {{folder.lastModified | date:'MM/dd/yyyy HH:mm:ss'}}
+            </p>
+            <p *ngIf="folder.hasZeroByteFiles" class="system-details__item-text--warning">
+              Warning: Contains zero-byte files
+            </p>
+            <p *ngIf="folder.errorMessage" class="system-details__item-text--error">
+              Error: {{folder.errorMessage}}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="data.folderChanges.length">
+        <h3 class="system-details__section-title">Folder Changes</h3>
+        <div *ngFor="let change of data.folderChanges" class="system-details__item">
+          <mat-icon class="system-details__item-icon">history</mat-icon>
+          <div class="system-details__item-content">
+            <h4 class="system-details__item-title">{{change.path}}</h4>
+            <p class="system-details__item-text">
+              {{change.lastChangeType}}
+              <span class="system-details__item-text--muted">
+                at {{change.lastChanged | date:'MM/dd/yyyy HH:mm:ss'}}
+              </span>
+            </p>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 </mat-dialog-content>
